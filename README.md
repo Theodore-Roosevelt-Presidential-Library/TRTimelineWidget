@@ -24,8 +24,9 @@ States and the world sit below. Fits well under 400 pixels of height.
   `YYYY-MM`, or `YYYY-MM-DD`. Tight windows switch the axis to month labels and
   spread same-year events out by their exact date.
 - **Expand to full screen.** The icon in each timeline's top-right corner opens a
-  full-screen view of the same range that scrolls sideways and shows *every*
-  point, no thinning.
+  full-screen **vertical** timeline of the same range — Roosevelt's life on the
+  left, the U.S. and the world on the right, on a central spine — showing *every*
+  point with its date and description, plus chapter dividers.
 
 ## Quick start
 

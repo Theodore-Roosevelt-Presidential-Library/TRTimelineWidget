@@ -142,6 +142,54 @@
     ".trtl-tip i{color:var(--orange);font-style:normal;font-weight:600;}";
 
   /* ------------------------------------------------------------------ *
+   *  VERTICAL TIMELINE STYLES (full-screen view)
+   * ------------------------------------------------------------------ */
+  var VCSS = "" +
+    ":host{all:initial;display:block;}*{box-sizing:border-box;}" +
+    ".vt-wrap{--display:'Dharma Gothic E','Oswald','Anton Narrow',sans-serif;" +
+      "--body:'ITC Clearface','Clearface',Georgia,'Times New Roman',serif;" +
+      "--caption:'Frutiger Next','Frutiger','Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;" +
+      "--ink:#25282A;--paper:#fff;--line:#d8d3c6;--orange:#E7805D;--graysky:#99ADC5;--sand:#D1CCBD;" +
+      "font-family:var(--caption);color:var(--ink);max-width:1120px;margin:0 auto;padding:0 20px 64px;-webkit-font-smoothing:antialiased;}" +
+    ".vt-head{position:sticky;top:0;z-index:4;display:flex;background:#fff;padding:12px 0 9px;border-bottom:1px solid var(--line);}" +
+    ".vt-h{flex:1;font-family:var(--display);text-transform:uppercase;letter-spacing:.03em;font-size:14px;color:#8a887e;}" +
+    ".vt-h-l{text-align:right;padding-right:34px;}" +
+    ".vt-h-r{text-align:left;padding-left:34px;}" +
+    ".vt{position:relative;padding:28px 0 8px;}" +
+    ".vt::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:var(--line);transform:translateX(-50%);}" +
+    ".vt-item{position:relative;margin:0 0 26px;min-height:22px;}" +
+    ".vt-mark{position:absolute;left:50%;top:9px;width:15px;height:15px;transform:translateX(-50%);background:var(--ink);" +
+      "border:3px solid var(--paper);border-radius:50%;box-shadow:0 0 0 1px var(--line);z-index:2;}" +
+    ".vt-mark.acc{background:var(--orange);}" +
+    ".vt-mark.world{background:var(--graysky);border-radius:1px;width:12px;height:12px;transform:translateX(-50%) rotate(45deg);}" +
+    ".vt-card{width:calc(50% - 36px);background:#fff;border:1px solid var(--line);border-radius:6px;padding:12px 15px;position:relative;}" +
+    ".vt-item.right .vt-card{margin-left:auto;}" +
+    ".vt-item.left .vt-card::after,.vt-item.right .vt-card::after{content:'';position:absolute;top:12px;width:9px;height:9px;" +
+      "background:#fff;border:1px solid var(--line);transform:rotate(45deg);}" +
+    ".vt-item.left .vt-card::after{right:-5px;border-left:0;border-bottom:0;}" +
+    ".vt-item.right .vt-card::after{left:-5px;border-right:0;border-top:0;}" +
+    ".vt-date{font-family:var(--caption);font-size:11px;font-weight:600;letter-spacing:.03em;color:var(--orange);" +
+      "text-transform:uppercase;margin-bottom:3px;}" +
+    ".vt-title{font-family:var(--display);text-transform:uppercase;letter-spacing:.02em;font-weight:700;font-size:16px;" +
+      "line-height:1.02;color:var(--ink);margin-bottom:5px;}" +
+    ".vt-blurb{font-family:var(--body);font-size:13px;line-height:1.4;color:#33322c;}" +
+    ".vt-explore{display:inline-flex;align-items:center;gap:5px;margin-top:9px;font-family:var(--caption);font-weight:700;" +
+      "font-size:12px;color:var(--ink);background:transparent;border:1px solid var(--ink);border-radius:2px;padding:5px 12px;" +
+      "text-decoration:none;transition:background .12s,color .12s;}" +
+    ".vt-explore:hover{background:var(--ink);color:#fff;}" +
+    ".vt-chapter{position:relative;text-align:center;margin:8px 0 24px;z-index:3;}" +
+    ".vt-pill{display:inline-block;font-family:var(--display);text-transform:uppercase;letter-spacing:.03em;font-weight:700;" +
+      "font-size:12px;padding:6px 15px;border-radius:999px;box-shadow:0 0 0 4px #fff;}" +
+    "@media (max-width:680px){" +
+      ".vt-head{display:none;}" +
+      ".vt::before{left:8px;}" +
+      ".vt-mark{left:8px;}" +
+      ".vt-card{width:calc(100% - 34px);margin-left:auto;}" +
+      ".vt-item.left .vt-card::after{left:-5px;right:auto;border:1px solid var(--line);border-right:0;border-top:0;}" +
+      ".vt-chapter{text-align:left;padding-left:2px;}" +
+    "}";
+
+  /* ------------------------------------------------------------------ *
    *  HELPERS
    * ------------------------------------------------------------------ */
   function el(tag, cls, attrs) {
@@ -454,22 +502,7 @@
       });
     }
 
-    // Width for the full-screen view: wide enough to space the closest pair of
-    // points by roughly the label gap, so every in-range point can show.
-    function fullscreenWidth() {
-      var vw = (window.innerWidth || 1000) - 8;
-      var n = Math.max(evPts.length, histPts.length);
-      var gaps = [];
-      [evPts, histPts].forEach(function (list) {
-        for (var i = 1; i < list.length; i++) { var g = list[i].__pos - list[i - 1].__pos; if (g > 0) gaps.push(g); }
-      });
-      var minGap = gaps.length ? Math.min.apply(null, gaps) : span;
-      var needed = (EV_MIN + 10) * span / Math.max(minGap, span / 600);
-      return Math.round(clamp(Math.max(vw, n * (EV_MIN + 12), needed), vw, 9000));
-    }
-
     function openFullscreen() {
-      var w = fullscreenWidth();
       var ov = el("div", null, { "class": "trtl-overlay" });
       ov.setAttribute("style", "position:fixed;inset:0;z-index:2147483000;background:#fff;" +
         "display:flex;flex-direction:column;font-family:'Frutiger Next','Inter',system-ui,-apple-system,sans-serif;");
@@ -479,29 +512,86 @@
         "text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:#25282A;");
       ttl.textContent = (data.subject || "Theodore Roosevelt") + " · " +
         decToLabel(startPos, subYear) + " – " + decToLabel(endPos - 1e-6, subYear);
-      var hintr = el("div"); hintr.setAttribute("style", "font-size:11.5px;color:#8a887e;");
-      hintr.textContent = "Scroll sideways to explore →";
       var xb = el("button"); xb.setAttribute("style", "border:1px solid #25282A;background:#fff;border-radius:2px;" +
         "font:700 13px 'Frutiger Next',system-ui,sans-serif;padding:6px 14px;cursor:pointer;color:#25282A;");
       xb.textContent = "Close ✕";
-      var right = el("div"); right.setAttribute("style", "display:flex;align-items:center;gap:16px;");
-      right.appendChild(hintr); right.appendChild(xb);
-      bar.appendChild(ttl); bar.appendChild(right);
-      // The tracks scroll horizontally; the detail readout below stays pinned to
-      // the viewport so a clicked point is always visible however far you scroll.
-      var scroller = el("div"); scroller.setAttribute("style", "flex:1;overflow-x:auto;overflow-y:hidden;" +
-        "display:flex;align-items:center;padding:10px 16px;");
-      var innerHost = el("div"); innerHost.style.width = w + "px"; innerHost.style.flex = "0 0 auto";
-      scroller.appendChild(innerHost);
-      var detailHost = el("div"); detailHost.setAttribute("style", "flex:0 0 auto;border-top:1px solid #e2ddd0;background:#fff;");
-      ov.appendChild(bar); ov.appendChild(scroller); ov.appendChild(detailHost);
+      bar.appendChild(ttl); bar.appendChild(xb);
+      var scroller = el("div"); scroller.setAttribute("style", "flex:1;overflow-y:auto;overflow-x:hidden;padding:0 8px;");
+      var host = el("div"); scroller.appendChild(host);
+      ov.appendChild(bar); ov.appendChild(scroller);
       document.body.appendChild(ov);
-      build(innerHost, { data: data, start: startRaw, end: endRaw, showAll: true, width: w, detailHost: detailHost });
+      buildVertical(host, { data: data, start: startRaw, end: endRaw });
       function close() { ov.remove(); document.removeEventListener("keydown", onKey); }
       function onKey(e) { if (e.key === "Escape") close(); }
       xb.addEventListener("click", close);
       document.addEventListener("keydown", onKey);
     }
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  VERTICAL TIMELINE (full-screen view)
+   *  Roosevelt's life on the left, the U.S. & the world on the right,
+   *  on a central spine, in date order, with dates + descriptions inline.
+   * ------------------------------------------------------------------ */
+  function buildVertical(host, opts) {
+    var data = opts.data;
+    var startPos = parseBound(opts.start, false), endPos = parseBound(opts.end, true);
+    if (endPos <= startPos) endPos = startPos + 1;
+    function inWin(p) { return p >= startPos && p <= endPos; }
+
+    var items = [];
+    (data.events || []).forEach(function (e) {
+      var p = toDecimal(e);
+      if (inWin(p)) items.push({ pos: p, side: "tr", date: e.date || String(e.year),
+        title: e.label, blurb: e.blurb, link: e.link, accent: e.accent });
+    });
+    (data.history || []).forEach(function (h) {
+      var p = toDecimal(h);
+      if (inWin(p)) items.push({ pos: p, side: "world", date: h.date || String(h.year),
+        title: h.label, blurb: h.blurb });
+    });
+    // Chapter dividers at each phase start that lands in range.
+    (data.phases || []).forEach(function (ph) {
+      if (ph.start >= startPos - 0.999 && ph.start <= endPos) {
+        items.push({ pos: ph.start - 0.0011, chapter: true, title: ph.label,
+          date: ph.start + "–" + ph.end, fill: ph.fill, ink: ph.ink });
+      }
+    });
+    items.sort(function (a, b) {
+      return a.pos - b.pos || ((b.chapter ? 1 : 0) - (a.chapter ? 1 : 0));
+    });
+
+    var root = host.shadowRoot || host.attachShadow({ mode: "open" });
+    root.innerHTML = "";
+    root.appendChild(Object.assign(el("style"), { textContent: VCSS }));
+    var wrap = el("div", "vt-wrap"); root.appendChild(wrap);
+    var head = el("div", "vt-head");
+    head.innerHTML = "<div class='vt-h vt-h-l'>" + (data.subject || "Theodore Roosevelt") + "</div>" +
+      "<div class='vt-h vt-h-r'>United States &amp; the World</div>";
+    wrap.appendChild(head);
+    var vt = el("div", "vt"); wrap.appendChild(vt);
+
+    items.forEach(function (it) {
+      if (it.chapter) {
+        var c = el("div", "vt-chapter");
+        var pill = el("div", "vt-pill"); pill.style.background = it.fill; pill.style.color = it.ink;
+        pill.textContent = it.title + " · " + it.date;
+        c.appendChild(pill); vt.appendChild(c); return;
+      }
+      var row = el("div", "vt-item " + (it.side === "tr" ? "left" : "right"));
+      row.appendChild(el("div", "vt-mark " + (it.side === "tr" ? (it.accent ? "acc" : "") : "world")));
+      var card = el("div", "vt-card");
+      var d = el("div", "vt-date"); d.textContent = it.date; card.appendChild(d);
+      var t = el("div", "vt-title"); t.textContent = it.title; card.appendChild(t);
+      var b = el("div", "vt-blurb"); b.textContent = it.blurb; card.appendChild(b);
+      if (it.link) {
+        var a = el("a", "vt-explore", { href: it.link, target: "_top", rel: "noopener" });
+        a.innerHTML = "Explore <svg viewBox='0 0 24 24' width='11' height='11' fill='none' stroke='currentColor' " +
+          "stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M13 6l6 6-6 6'/></svg>";
+        card.appendChild(a);
+      }
+      row.appendChild(card); vt.appendChild(row);
+    });
   }
 
   /* ------------------------------------------------------------------ *
