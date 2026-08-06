@@ -26,19 +26,19 @@ window.TRTimelineData = {
   "died": 1919,
 
   "phases": [
-    { "id": "early", "label": "Early Life", "start": 1858, "end": 1883, "fill": "#99ADC5", "ink": "#14212e",
+    { "id": "early", "label": "Early Life", "start": "1858-10", "end": "1883-09", "fill": "#99ADC5", "ink": "#14212e",
       "link": "https://www.trlibrary.com/tr/early-life",
       "blurb": "A sickly, asthmatic boy born in New York City in 1858 who built his body and his will through what he later called the strenuous life." },
-    { "id": "badlands", "label": "The Badlands", "start": 1883, "end": 1887, "fill": "#D1CCBD", "ink": "#25282A", "accent": true,
+    { "id": "badlands", "label": "The Badlands", "start": "1883-09", "end": "1887-01", "fill": "#D1CCBD", "ink": "#25282A", "accent": true,
       "link": "https://www.trlibrary.com/tr/badlands",
       "blurb": "After losing his wife and his mother on the same day, Roosevelt came west to ranch and hunt in the Dakota Badlands — the country that shaped him." },
-    { "id": "rise", "label": "Rise to Power", "start": 1887, "end": 1901, "fill": "#8FC895", "ink": "#16311f",
+    { "id": "rise", "label": "Rise to Power", "start": "1887-01", "end": "1901-09", "fill": "#8FC895", "ink": "#16311f",
       "link": "https://www.trlibrary.com/tr/rise-to-power",
       "blurb": "Civil Service reformer, New York City police commissioner, Assistant Secretary of the Navy, Rough Rider, and Governor of New York." },
-    { "id": "presidency", "label": "Presidency", "start": 1901, "end": 1909, "fill": "#092A4D", "ink": "#ffffff",
+    { "id": "presidency", "label": "Presidency", "start": "1901-09", "end": "1909-03", "fill": "#092A4D", "ink": "#ffffff",
       "link": "https://www.trlibrary.com/tr/presidency",
       "blurb": "The nation's 26th president. The Square Deal, trust-busting, the Panama Canal, and the broadest conservation record of any president." },
-    { "id": "post", "label": "Post-Presidency", "start": 1909, "end": 1919, "fill": "#1B4532", "ink": "#ffffff",
+    { "id": "post", "label": "Post-Presidency", "start": "1909-03", "end": "1919-01", "fill": "#1B4532", "ink": "#ffffff",
       "link": "https://www.trlibrary.com/tr/post-presidency",
       "blurb": "An African expedition, the Bull Moose campaign of 1912, and a near-fatal journey down the Amazon's River of Doubt." }
   ],
@@ -166,7 +166,7 @@ window.TRTimelineData = {
       "blurb": "Convenes the governors at the White House for a landmark conference on conservation." },
     { "year": 1909, "date": "March 1909", "label": "Leaves office", "weight": 2,
       "blurb": "Hands the presidency to William Howard Taft and prepares to leave the country." },
-    { "year": 1909, "date": "April 1909", "label": "African safari", "weight": 3, "link": "https://www.trlibrary.com/tr/post-presidency/african-safari",
+    { "year": 1909, "date": "March 1909", "label": "African safari", "weight": 3, "link": "https://www.trlibrary.com/tr/post-presidency/african-safari",
       "blurb": "Sets off on a year-long Smithsonian expedition through East Africa." },
     { "year": 1910, "date": "April 23, 1910", "label": "Man in the Arena", "weight": 4, "link": "https://www.trlibrary.com/tr/speeches/man-in-the-arena",
       "blurb": "Delivers his “Citizenship in a Republic” address at the Sorbonne in Paris." },
@@ -377,7 +377,15 @@ window.TRTimelineData = {
     { "year": 1900, "date": "February 1900", "label": "Breaks with Platt", "weight": 2.5, "link": "https://www.trlibrary.com/tr/rise-to-power/governor",
       "blurb": "He forces out the boss's insurance superintendent, Louis Payn — his defining break with party boss Thomas Platt." },
     { "year": 1900, "date": "1900", "label": "Tenement House probe", "weight": 1.5, "link": "https://www.trlibrary.com/tr/rise-to-power/governor",
-      "blurb": "He launches the state Tenement House Commission whose findings drive the landmark 1901 housing reform." }
+      "blurb": "He launches the state Tenement House Commission whose findings drive the landmark 1901 housing reform." },
+    { "year": 1909, "date": "1909", "label": "500 big-game animals", "weight": 1.5, "link": "https://www.trlibrary.com/tr/post-presidency/african-safari",
+      "blurb": "Over the year the expedition takes more than 500 large animals — a haul that draws both admiration and criticism." },
+    { "year": 1909, "date": "1909", "label": "The Pigskin Library", "weight": 1, "link": "https://www.trlibrary.com/tr/post-presidency/african-safari",
+      "blurb": "In camp he reads from his waterproof “Pigskin Library” of classics, filling notebooks with wildlife observations." },
+    { "year": 1909, "date": "1909", "label": "Watches Taft from afar", "weight": 1.5, "link": "https://www.trlibrary.com/tr/post-presidency/african-safari",
+      "blurb": "Even in the bush he grows uneasy reading of his successor Taft's cabinet and conservation choices." },
+    { "year": 1910, "date": "1910", "label": "11,000 specimens", "weight": 1.5, "link": "https://www.trlibrary.com/tr/post-presidency/african-safari",
+      "blurb": "The party ships more than 11,000 specimens to the Smithsonian, where many still anchor its African collections." }
   ],
 
   "history": [

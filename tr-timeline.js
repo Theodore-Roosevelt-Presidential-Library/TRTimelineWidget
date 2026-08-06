@@ -41,13 +41,14 @@
   })();
 
   // Named period shorthands (data-preset). Explicit data-start/-end win.
+  // Named eras, bounded to the month at the real transitions.
   var PRESETS = {
-    full:           { start: 1855, end: 1921 },
-    earlylife:      { start: 1855, end: 1884 },
-    badlands:       { start: 1881, end: 1891 },
-    risetopower:    { start: 1887, end: 1902 },
-    presidency:     { start: 1900, end: 1910 },
-    postpresidency: { start: 1908, end: 1921 }
+    full:           { start: 1858, end: 1920 },
+    earlylife:      { start: "1858-10", end: "1883-09" },
+    badlands:       { start: "1883-09", end: "1887-01" },
+    risetopower:    { start: "1887-01", end: "1901-09" },
+    presidency:     { start: "1901-09", end: "1909-03" },
+    postpresidency: { start: "1909-03", end: "1919-01" }
   };
 
   /* ------------------------------------------------------------------ *
@@ -261,6 +262,9 @@
     return isNaN(n) ? null : (isEnd ? n + 1 : n);
   }
 
+  // Phase boundaries may be plain years (1901) or "YYYY-MM" strings.
+  function phasePos(v) { return typeof v === "number" ? v : parseBound(v, false); }
+
   // Label a decimal position as a year, or "Mon YYYY" when zoomed in tight.
   function decToLabel(pos, withMonth) {
     var y = Math.floor(pos + 1e-6);
@@ -366,12 +370,14 @@
     var center = el("div", "trtl-center"); chart.appendChild(center);
     var phases = el("div", "trtl-track trtl-phases");
     (data.phases || []).forEach(function (p) {
-      if (!phaseIn(p.start, p.end)) return;
+      var ps = phasePos(p.start), pe = phasePos(p.end);
+      if (!phaseIn(ps, pe)) return;
       var b = el("div", "trtl-phase" + (p.accent ? " accent" : ""), { tabindex: "0", role: "button" });
-      b.style.left = leftCss(p.start); b.style.width = widthCss(p.start, p.end);
+      b.style.left = leftCss(ps); b.style.width = widthCss(ps, pe);
       b.style.background = p.fill; b.style.color = p.ink;
       var s = el("span"); s.textContent = p.label; b.appendChild(s);
-      bindItem(b, { yr: p.start + "–" + p.end, title: p.label, blurb: p.blurb, link: p.link });
+      bindItem(b, { yr: Math.floor(ps + 1e-6) + "–" + Math.floor(pe - 1e-6),
+        title: p.label, blurb: p.blurb, link: p.link });
       phases.appendChild(b);
     });
     center.appendChild(phases);
@@ -567,9 +573,10 @@
     });
     // Chapter dividers at each phase start that lands in range.
     (data.phases || []).forEach(function (ph) {
-      if (ph.start >= startPos - 0.999 && ph.start <= endPos) {
-        items.push({ pos: ph.start - 0.0011, chapter: true, title: ph.label,
-          date: ph.start + "–" + ph.end, fill: ph.fill, ink: ph.ink });
+      var ps = phasePos(ph.start), pe = phasePos(ph.end);
+      if (ps >= startPos - 0.999 && ps <= endPos) {
+        items.push({ pos: ps - 0.0011, chapter: true, title: ph.label,
+          date: Math.floor(ps + 1e-6) + "–" + Math.floor(pe - 1e-6), fill: ph.fill, ink: ph.ink });
       }
     });
     items.sort(function (a, b) {
