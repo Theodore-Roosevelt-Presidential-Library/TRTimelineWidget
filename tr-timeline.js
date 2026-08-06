@@ -9,9 +9,10 @@
  *   <div data-tr-timeline data-start="1858" data-end="1919"></div>
  *   <script src="tr-timeline.js"></script>
  *
- * The content lives in tr-data.json (loaded at runtime). Point a widget at a
- * different file with data-src="path/to.json". Options: data-start, data-end,
- * data-preset, data-src. See README.md.
+ * That one script tag is the whole embed: tr-timeline.js finds its own URL and
+ * auto-loads tr-data.js from the same folder. (Include tr-data.js yourself first
+ * to skip that, or set data-src="path/to.json" to fetch JSON instead.)
+ * Options: data-start, data-end, data-preset, data-src. See README.md.
  *
  * Renders into a shadow root so page styles never leak in and the widget never
  * disturbs the host page. Brand fonts are referenced first and inherit from the
@@ -24,6 +25,20 @@
   "use strict";
 
   var DEFAULT_SRC = "tr-data.json";
+
+  // Where is tr-timeline.js hosted? Load tr-data.js from the same folder so an
+  // embed only needs one <script> tag. Captured while the script executes.
+  var BASE = (function () {
+    var s = document.currentScript;
+    if (!s) {
+      var all = document.getElementsByTagName("script");
+      for (var i = all.length - 1; i >= 0; i--) {
+        if (/tr-timeline(\.min)?\.js(\?|#|$)/.test(all[i].src)) { s = all[i]; break; }
+      }
+    }
+    var src = (s && s.src) ? s.src.split(/[?#]/)[0] : "";
+    return src ? src.slice(0, src.lastIndexOf("/") + 1) : "";
+  })();
 
   // Named period shorthands (data-preset). Explicit data-start/-end win.
   var PRESETS = {
@@ -608,6 +623,27 @@
     return _cache[src];
   }
 
+  // Load the data file (tr-data.js) as a <script>, once, from the widget's own
+  // folder — works over http and from disk, cross-origin, no CORS. If the page
+  // already included tr-data.js, use that immediately.
+  var _dataPromise = null;
+  function ensureData() {
+    if (window.TRTimelineData) return Promise.resolve(window.TRTimelineData);
+    if (!_dataPromise) {
+      _dataPromise = new Promise(function (resolve, reject) {
+        var sc = document.createElement("script");
+        sc.src = BASE + "tr-data.js";
+        sc.onload = function () {
+          window.TRTimelineData ? resolve(window.TRTimelineData)
+            : reject(new Error("tr-data.js loaded but window.TRTimelineData is missing"));
+        };
+        sc.onerror = function () { reject(new Error("failed to load " + sc.src)); };
+        (document.head || document.documentElement).appendChild(sc);
+      });
+    }
+    return _dataPromise;
+  }
+
   function fromAttrs(host) {
     var o = {};
     if (host.dataset.preset) o.preset = host.dataset.preset;
@@ -633,21 +669,15 @@
       opts = opts || fromAttrs(host);
       if (opts.data) { build(host, opts); return host; }
 
-      // Prefer inline data (window.TRTimelineData from tr-data.js) — this works
-      // even when the page is opened from disk. Only fetch when a data-src is
-      // given or no inline data is present.
+      // An explicit data-src loads that JSON; otherwise auto-load tr-data.js
+      // from the widget's own folder (so the embed is a single <script> tag).
       var src = opts.src || host.dataset.src;
-      if (!src && window.TRTimelineData) {
-        build(host, Object.assign({}, opts, { data: window.TRTimelineData }));
-        return host;
-      }
-      src = src || DEFAULT_SRC;
-      loadData(src).then(function (data) {
+      (src ? loadData(src) : ensureData()).then(function (data) {
         build(host, Object.assign({}, opts, { data: data }));
       }).catch(function (err) {
-        console.error("TR Timeline: could not load data from " + src, err);
-        showError(host, "Timeline data didn’t load. Include <code>tr-data.js</code> " +
-          "before <code>tr-timeline.js</code>, or serve <code>" + src + "</code> over http.");
+        console.error("TR Timeline: could not load data", err);
+        showError(host, "Timeline data didn’t load. Keep <code>tr-data.js</code> beside " +
+          "<code>tr-timeline.js</code>, or set <code>data-src</code> to a JSON file on the same origin.");
       });
       return host;
     },

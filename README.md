@@ -30,17 +30,19 @@ States and the world sit below. Fits well under 400 pixels of height.
 
 ## Quick start
 
-Include the data file, then the widget, and set the range on a container:
+Drop in a container and one script tag, and set the range:
 
 ```html
 <div data-tr-timeline data-start="1858" data-end="1919"></div>
-<script src="tr-data.js"></script>
 <script src="tr-timeline.js"></script>
 ```
 
-That's it — no server required. Open `index.html` by double-clicking it, or serve
-it; both work. `index.html` shows the full life, a Badlands slice, and a narrow
-embed.
+`tr-timeline.js` finds its own URL and loads `tr-data.js` from the same folder,
+so that's the whole embed. Open `index.html` by double-clicking it, or serve it;
+both work. `index.html` shows the full life, a Badlands slice, and a narrow embed.
+
+(You can still include `tr-data.js` yourself before the widget if you prefer —
+the widget will use it and skip the auto-load.)
 
 ## Period embeds
 
@@ -112,9 +114,11 @@ This repo deploys to GitHub Pages via GitHub Actions on every push to `main`
 
 ```html
 <div data-tr-timeline data-start="1881" data-end="1891"></div>
-<script src="https://timeline.labs.trlibrary.com/tr-data.js"></script>
 <script src="https://timeline.labs.trlibrary.com/tr-timeline.js"></script>
 ```
+
+(The widget auto-loads `tr-data.js` from the same host, so cross-origin embeds on
+other sites still need only this one tag.)
 
 ## A note on accuracy
 
