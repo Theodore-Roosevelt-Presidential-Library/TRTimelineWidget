@@ -61,8 +61,8 @@
       "--body:'ITC Clearface','Clearface',Georgia,'Times New Roman',serif;" +
       "--caption:'Frutiger Next','Frutiger','Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;" +
       "--ink:#25282A;--sand:#D1CCBD;--paper:#ffffff;--line:#c9c3b4;--orange:#E7805D;--graysky:#99ADC5;" +
-      "font-family:var(--caption);color:var(--ink);background:var(--paper);" +
-      "border:1px solid var(--line);border-radius:6px;padding:16px 18px 14px;" +
+      "font-family:var(--caption);color:var(--ink);background:transparent;" +
+      "padding:14px 6px 12px;" +
       "position:relative;width:100%;overflow:hidden;-webkit-font-smoothing:antialiased;}" +
     ".trtl.trtl-plain{border:none;border-radius:0;background:transparent;overflow:visible;}" +
 
