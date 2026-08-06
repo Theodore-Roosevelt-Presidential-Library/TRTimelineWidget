@@ -105,13 +105,14 @@ and a secondary **Explore** button appears when that point is clicked.
 
 ## Hosting on GitHub Pages
 
-Enable Pages for this repo (Settings → Pages → deploy from `main`). The embed
-then becomes:
+This repo deploys to GitHub Pages via GitHub Actions on every push to `main`
+(see `.github/workflows/deploy.yml`), served at the custom domain in `CNAME`:
+**https://timeline.labs.trlibrary.com**. The embed on any page is then:
 
 ```html
 <div data-tr-timeline data-start="1881" data-end="1891"></div>
-<script src="https://<org>.github.io/TRTimelineWidget/tr-data.js"></script>
-<script src="https://<org>.github.io/TRTimelineWidget/tr-timeline.js"></script>
+<script src="https://timeline.labs.trlibrary.com/tr-data.js"></script>
+<script src="https://timeline.labs.trlibrary.com/tr-timeline.js"></script>
 ```
 
 ## A note on accuracy
