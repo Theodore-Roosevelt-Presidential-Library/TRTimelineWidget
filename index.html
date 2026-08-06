@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TR Timeline Widget — Preview</title>
+<style>
+  body{font-family:'Frutiger Next','Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+       color:#25282A;background:#faf9f6;margin:0;padding:32px 20px 80px;}
+  .page{max-width:920px;margin:0 auto;}
+  h1{font-family:'Dharma Gothic E','Oswald','Anton Narrow',sans-serif;text-transform:uppercase;
+     letter-spacing:.02em;font-size:30px;margin:0 0 4px;}
+  .lede{font-family:'ITC Clearface','Clearface',Georgia,serif;font-size:15px;color:#4a4a44;max-width:640px;margin:0 0 20px;}
+  .cap{font-family:'Dharma Gothic E','Oswald',sans-serif;text-transform:uppercase;letter-spacing:.03em;
+     font-size:13px;color:#8a887e;margin:0 0 6px;}
+  .embed{margin:0 0 22px;}
+  .rule{border-top:1px solid #e2ddd0;margin:26px 0 20px;}
+  .note{font-size:12px;color:#8a887e;margin:6px 0 12px;}
+  .narrow{max-width:380px;}
+  code{font-size:11.5px;background:#efece3;padding:1px 5px;border-radius:3px;}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Roosevelt Timeline — Comparison</h1>
+  <p class="lede">The same widget at two scales, stacked so you can compare them at once: his whole life
+  on top, then the view zoomed to the Badlands years below. Ranges accept months
+  (<code>data-start="1901-06"</code>), and the expand icon in each timeline's top-right corner opens a
+  full-screen, scroll-right view that shows every point in range.</p>
+
+  <div class="embed">
+    <div class="cap">Full life · 1858–1919</div>
+    <div data-tr-timeline data-start="1858" data-end="1919"></div>
+  </div>
+
+  <div class="embed">
+    <div class="cap">Childhood: 1858–1875</div>
+    <div data-tr-timeline data-start="1858" data-end="1875"></div>
+  </div>
+
+  <div class="embed">
+    <div class="cap">Young Adulthood: 1876–1884</div>
+    <div data-tr-timeline data-start="1876" data-end="1884"></div>
+  </div>
+
+  <div class="embed">
+    <div class="cap">The Badlands · 1883–1887</div>
+    <div data-tr-timeline data-start="1883" data-end="1886"></div>
+  </div>  
+
+  <div class="embed">
+    <div class="cap">Becoming a Leader: 1898</div>
+    <div data-tr-timeline data-start="1898" data-end="1898"></div>
+  </div>  
+
+  <div class="embed">
+    <div class="cap">Path to Presidency: 1898–1901</div>
+    <div data-tr-timeline data-start="1898" data-end="1901"></div>
+  </div>  
+
+  <div class="embed">
+    <div class="cap">The Presidency: 1901–1909</div>
+    <div data-tr-timeline data-start="1901" data-end="1909"></div>
+  </div>    
+
+  <div class="embed">
+    <div class="cap">Path to Presidency: First Term</div>
+    <div data-tr-timeline data-start="1901" data-end="1905"></div>
+  </div>  
+
+  <div class="embed">
+    <div class="cap">After the White House: 1909–1912</div>
+    <div data-tr-timeline data-start="1909" data-end="1912"></div>
+  </div>    
+
+  <div class="embed">
+    <div class="cap">The Last Adventure: the 1913–14</div>
+    <div data-tr-timeline data-start="1913" data-end="1914"></div>
+  </div>   
+
+  <div class="embed">
+    <div class="cap">The Final Chapter: 1914–1919</div>
+    <div data-tr-timeline data-start="1914" data-end="1919"></div>
+  </div>   
+
+
+  <div class="rule"></div>
+
+  <p class="note">A narrow embed, to check how points thin out in a tight column —
+  <code>data-start="1900" data-end="1910"</code>.</p>
+  <div class="narrow">
+    <div data-tr-timeline data-start="1900" data-end="1910"></div>
+  </div>
+
+  <div class="rule"></div>
+
+  <p class="note">Month-level range — the war summer, month by month:
+  <code>data-start="1898-04" data-end="1898-12"</code>. Use the expand icon to see everything.</p>
+  <div class="embed">
+    <div data-tr-timeline data-start="1898-04" data-end="1898-12"></div>
+  </div>
+</div>
+
+<script src="tr-data.js"></script>
+<script src="tr-timeline.js"></script>
+</body>
+</html>
